@@ -14,13 +14,63 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #fffdfd;
+    --foreground: #fffefe;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  
+}
+/*Css for ตัวพิม์ | ตัวนี้*/
+@keyframes float-circle {
+  0% { transform: translate(0px, 0px); }
+  33% { transform: translate(30px, -40px); }
+  66% { transform: translate(-20px, 20px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+.animate-float-circle {
+  animation: float-circle 10s ease-in-out infinite;
+}
+
+/* สัญญาณกระพริบแบบขยายตัว เบลอ และจางหาย */
+@keyframes signal-blur {
+  0% { transform: scale(1); opacity: 0.8; filter: blur(0px); }
+  70% { transform: scale(1.1); opacity: 0; filter: blur(3px); }
+  100% { transform: scale(1.2); opacity: 0; filter: blur(5px); }
+}
+
+.animate-signal {
+  animation: signal-blur 2s ease-out infinite;
+}
+
+/* เอฟเฟกต์เส้นขอบสีเขียวกระจายตัวแบบเบลอ */
+@keyframes study-pulse {
+  0% { transform: scale(1); opacity: 0.8; filter: blur(0px); }
+  70% { transform: scale(1.15); opacity: 0; filter: blur(3px); }
+  100% { transform: scale(1.2); opacity: 0; filter: blur(5px); }
+}
+
+.animate-study-pulse {
+  animation: study-pulse 2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-study-pulse {
+    animation: none;
+  }
+}
+
+/* เอฟเฟกต์เคอร์เซอร์กะพริบ */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  /* ใช้ step-end เพื่อให้สลับแสดง/ซ่อนทันทีแบบเคอร์เซอร์พิมพ์ข้อความ */
+  animation: blink 1.1s step-end infinite; 
 }
