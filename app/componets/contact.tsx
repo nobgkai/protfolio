@@ -1,6 +1,31 @@
-import Link from "next/link";
+"use client";
+
+import { useEffect, useState, useRef } from "react";
 
 export default function Contact() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
+
   const leftColumn = [
     {
       id: 1,
@@ -129,9 +154,13 @@ export default function Contact() {
 
       <div className="bg-dot-pattern-faded"></div>
 
-      <div className="w-full max-w-5xl px-6 md:px-8 relative z-10">
+      <div ref={sectionRef} className="w-full max-w-5xl px-6 md:px-8 relative z-10">
         
-        <h2 className="flex items-baseline gap-3 mb-12">
+        <h2 
+          className={`flex items-baseline gap-3 mb-12 transform transition-all duration-[1200ms] ease-out ${
+            isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-10 scale-95"
+          }`}
+        >
           <span className="text-5xl md:text-6xl font-bold text-[#2D1B69]">MY</span>
           <span className="text-5xl md:text-6xl font-bold text-gradient-aura">contact</span>
         </h2>
@@ -139,12 +168,25 @@ export default function Contact() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
           
           {/* ----- คอลัมน์ซ้าย ----- */}
-          <div className="relative flex flex-col gap-6">
-            <div className="absolute left-[7px] top-6 bottom-6 w-[2px] bg-black z-0"></div>
+          {/* สังเกตการเพิ่ม h-fit เพื่อไม่ให้มันยืดความสูงเกินจริง */}
+          <div className="relative flex flex-col gap-6 h-fit">
             
-            {leftColumn.map((contact) => (
-              <div key={contact.id} className="flex items-center gap-4 relative z-10">
-                <div className="w-4 h-4 bg-black rounded-full flex-shrink-0"></div>
+            {/* เส้นแกนสีดำ ปรับเป็น top-7 และ bottom-7 เพื่อให้ชนจุดกลางพอดีเป๊ะ */}
+            <div 
+              className={`absolute left-[7px] top-7 bottom-7 w-[2px] bg-black z-0 origin-top transform transition-transform duration-1000 ease-out delay-300 ${
+                isVisible ? "scale-y-100" : "scale-y-0"
+              }`}
+            ></div>
+            
+            {leftColumn.map((contact, index) => (
+              <div 
+                key={contact.id} 
+                className={`flex items-center gap-4 relative z-10 transform transition-all duration-700 ease-out ${
+                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+                }`}
+                style={{ transitionDelay: `${400 + (index * 150)}ms` }}
+              >
+                <div className="w-4 h-4 bg-black rounded-full flex-shrink-0 relative z-20"></div>
                 
                 <a 
                   href={contact.link}
@@ -162,12 +204,25 @@ export default function Contact() {
           </div>
 
           {/* ----- คอลัมน์ขวา ----- */}
-          <div className="relative flex flex-col gap-6">
-            <div className="absolute left-[7px] top-6 bottom-6 w-[2px] bg-black z-0"></div>
+          {/* เพิ่ม h-fit เหมือนกัน */}
+          <div className="relative flex flex-col gap-6 h-fit">
             
-            {rightColumn.map((contact) => (
-              <div key={contact.id} className="flex items-center gap-4 relative z-10">
-                <div className="w-4 h-4 bg-black rounded-full flex-shrink-0"></div>
+            {/* เส้นแกนสีดำของฝั่งขวา */}
+            <div 
+              className={`absolute left-[7px] top-7 bottom-7 w-[2px] bg-black z-0 origin-top transform transition-transform duration-1000 ease-out delay-300 ${
+                isVisible ? "scale-y-100" : "scale-y-0"
+              }`}
+            ></div>
+            
+            {rightColumn.map((contact, index) => (
+              <div 
+                key={contact.id} 
+                className={`flex items-center gap-4 relative z-10 transform transition-all duration-700 ease-out ${
+                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+                }`}
+                style={{ transitionDelay: `${400 + (index * 150)}ms` }}
+              >
+                <div className="w-4 h-4 bg-black rounded-full flex-shrink-0 relative z-20"></div>
                 
                 <a 
                   href={contact.link}

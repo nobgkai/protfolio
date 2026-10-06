@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Prompt, Itim } from "next/font/google";
 ///ส่วนimport หน้าต่างๆ
 import Navbar from "./componets/navbar"; 
+import Footer from "./componets/footer";
 
 /////
 import "./globals.css";
@@ -42,7 +43,7 @@ export default function RootLayout({
         <main className="flex-1">
           {children}
         </main>
-
+        <Footer />
       </body>
     </html>
   );
